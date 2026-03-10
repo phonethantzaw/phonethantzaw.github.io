@@ -93,6 +93,13 @@
     h1.hl .ln:nth-child(1){animation:fu .9s .38s forwards;}
     h1.hl .ln:nth-child(2){animation:fu .9s .52s forwards;}
     h1.hl .gd { color:var(--gold); font-style:italic; }
+    .hl-cycle { position:relative; display:inline-flex; align-items:baseline; }
+    .hl-cycle .invis { visibility:hidden; }
+    .hl-cycle .cw { position:absolute; left:0; color:var(--gold); font-style:italic; white-space:nowrap;
+      opacity:0; transform:translateY(60px);
+      transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1); }
+    .hl-cycle .cw.active { opacity:1; transform:translateY(0); }
+    .hl-cycle .cw.exit-up { opacity:0; transform:translateY(-60px); }
 
     .hsub { max-width:560px; font-size:1.05rem; color:var(--muted); margin-bottom:2.5rem; line-height:1.85; opacity:0; animation:fu .8s .72s forwards; }
     .hsub strong { color:var(--text); }
@@ -302,7 +309,13 @@
     <div class="eyebrow"><span>Java Full-Stack Engineer &nbsp;·&nbsp; 8+ Years &nbsp;·&nbsp; Enterprise · Fintech · Gov</span></div>
     <h1 class="hl">
       <span class="ln">Backend-strong.</span>
-      <span class="ln">Full-stack <span class="gd">fluent.</span></span>
+      <span class="ln">Full-stack <span class="hl-cycle" id="hlCycle">
+        <span class="invis">fluent.</span>
+        <span class="cw" data-idx="0">fluent.</span>
+        <span class="cw" data-idx="1">precise.</span>
+        <span class="cw" data-idx="2">scalable.</span>
+        <span class="cw" data-idx="3">modern.</span>
+      </span></span>
     </h1>
     <p class="hsub">Hi, I'm <strong>Phone Thant Zaw</strong> — a Java Full-Stack Software Engineer who builds scalable enterprise systems and ships clean, production-ready code. From fintech microservices in Singapore to government platforms in Utah, I own the stack end-to-end.</p>
     <div class="hbtns">
@@ -818,6 +831,21 @@
     mm.classList.remove('o');hbg.classList.remove('o');
     hbg.setAttribute('aria-expanded','false');document.body.style.overflow='';
   }));
+
+  // CYCLING HEADLINE
+  (function(){
+    const words=document.querySelectorAll('#hlCycle .cw');
+    let cur=0;
+    words[cur].classList.add('active');
+    setInterval(()=>{
+      const prev=cur;
+      cur=(cur+1)%words.length;
+      words[prev].classList.remove('active');
+      words[prev].classList.add('exit-up');
+      setTimeout(()=>words[prev].classList.remove('exit-up'),500);
+      words[cur].classList.add('active');
+    },2800);
+  })();
 
   // SCROLL REVEAL
   const ro=new IntersectionObserver(entries=>{
